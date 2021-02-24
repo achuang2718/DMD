@@ -1,28 +1,6 @@
 import socket
 
 
-def create_ellipse_image(allwhite_filename='allwhite.bmp'):
-    import matplotlib.pyplot as plt
-    import matplotlib.patches as patches
-    from PIL import Image, ImageDraw
-    # get an image
-    im = Image.open(allwhite_filename)
-
-    x, y = im.size
-    # Size of Bounding Box for ellipse #this creates what appears as a circle on the DMD
-    eX, eY = 300, 590
-    # eX, eY = 300, 300
-    shiftx, shifty = -45, -40
-
-    bbox = (x / 2 - eX / 2 + shiftx, y / 2 - eY / 2 + shifty,
-            x / 2 + eX / 2 + shiftx, y / 2 + eY / 2 + shifty)
-    draw = ImageDraw.Draw(im)
-    draw.ellipse(bbox, fill=0)
-    del draw
-
-    im.save("out.bmp")
-
-
 class DMD():
     """Communicate with the DMD through the beaglebone board."""
 
@@ -97,9 +75,7 @@ class DMD():
         print("Image successfully sent")
 
 
-# create_ellipse_image()
-
 PEM_IP = '192.168.1.16'
 my_DMD = DMD(PEM_IP)
-# my_DMD.version_checker()
-my_DMD.send_image('out.bmp')
+IM_FILENAME = 'bar.bmp'
+my_DMD.send_image(IM_FILENAME)
