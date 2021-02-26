@@ -1,7 +1,7 @@
 WHITE_DEFAULT_NAME = 'allwhite.bmp'
 
 
-def create_ellipse_image(eX=300, eY=590, allwhite_filename=WHITE_DEFAULT_NAME):
+def create_ellipse_image(eX=300, eY=590, shiftx=0, shifty=0, allwhite_filename=WHITE_DEFAULT_NAME):
     """
     Saves ellipse .bmp generated from blank canvas from allwhite_filename.
 
@@ -62,11 +62,24 @@ def create_dark_image(allwhite_filename=WHITE_DEFAULT_NAME):
     inverted_image.show()
     inverted_image.save('alldark.bmp')
 
+def create_USAFtarget_image(resize_factor = 1, allwhite_filename=WHITE_DEFAULT_NAME, usaf_filename="1951usaf_test_target_stretch.bmp",
+	shiftx=0, shifty=0):
+	from PIL import Image
+	import PIL
 
-def create_ring_image(allwhite_filename=WHITE_DEFAULT_NAME):
-    pass
+	background_im = Image.open(allwhite_filename)
+	xb, yb = background_im.size
+	usaf_im = Image.open(usaf_filename)
+	x, y = usaf_im.size
+	usaf_im = usaf_im.resize((round(x*resize_factor), round(y*resize_factor)), resample=PIL.Image.LANCZOS)
+	x, y = usaf_im.size
+	corner = (round((xb - x)/2), round((yb - y)/2))
+	background_im.paste(usaf_im, corner)
+	background_im.show()
+	background_im.save('usaf.bmp')
 
-
-# create_ellipse_image()
+# create_ellipse_image(eX=100, eY=200)
 # create_dark_image()
-create_bar_image()
+# create_bar_image()
+
+create_USAFtarget_image(1)
